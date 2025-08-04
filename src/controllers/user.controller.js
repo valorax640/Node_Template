@@ -1,9 +1,11 @@
-const UserService = require('../services/user.service');
+const { User } = require('../models');
 
 exports.listUsers = async (req, res, next) => {
     try {
-        const users = await UserService.getAllUsers();
-        res.status(200).json(users);
+        const users = await User.findAll({
+            attributes: ['id', 'name', 'email', 'username']
+        });
+        res.status(200).json({ status: 'SUCCESS', message: 'Data Fetched Successfully', response: users });
     } catch (err) {
         next(err);
     }
